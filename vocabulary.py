@@ -1,7 +1,7 @@
 import keyboard
 import os
 
-mode = 0
+mode = 1
 # mode = 0:背单词模式
 # mode = 1:检测模式
 num = 0
@@ -52,45 +52,48 @@ length = len(words)
 
 def learn(x):
     global num
-    a = keyboard.KeyboardEvent('down', 28, 'left')
-    b = keyboard.KeyboardEvent('down', 28, 'right')
-    d = keyboard.KeyboardEvent('down', 28, 'down')
-    if x.event_type == 'down' and x.name == a.name:
+    if x.event_type == 'down' and x.name == 'left':
         clear()
         print(words[num])
         print(meaning[num])
-        num = num - 1
-    if x.event_type == 'down' and x.name == b.name:
+        if num > 0:
+            num = num - 1
+    if x.event_type == 'down' and x.name == 'right':
         clear()
         print(words[num])
         print(meaning[num])
         if num < len(words) - 1:
             num = num + 1
-    if x.event_type == 'down' and x.name == d.name:
-        clear()
-        print("down键")
+    if x.event_type == 'down' and x.name == 'down':
+        if len(words) > 0 and num < len(words) - 1:
+            del words[num - 1]
+            del meaning[num - 1]
+            clear()
+            print(words[num])
+            print(meaning[num])
+        else:
+            print("complete!")
 
 
 def test(x):
     global num
-    a = keyboard.KeyboardEvent('down', 28, 'left')
-    b = keyboard.KeyboardEvent('down', 28, 'right')
-    c = keyboard.KeyboardEvent('down', 28, 'up')
-    d = keyboard.KeyboardEvent('down', 28, 'down')
-    if x.event_type == 'down' and x.name == a.name:
+    if x.event_type == 'down' and x.name == 'left':
         clear()
         print(words[num])
-        num = num - 1
-    if x.event_type == 'down' and x.name == b.name:
+        if num > 0:
+            num = num - 1
+    if x.event_type == 'down' and x.name == 'right':
         clear()
         print(words[num])
         if num < len(words) - 1:
             num = num + 1
-    if x.event_type == 'down' and x.name == c.name:
+    if x.event_type == 'down' and x.name == 'up':
         print(meaning[num - 1])
-    if x.event_type == 'down' and x.name == d.name:
-        clear()
-        print("down键")
+    if x.event_type == 'down' and x.name == 'down':
+        if len(words) > 0:
+            del words[num - 1]
+            del meaning[num - 1]
+            clear()
 
 
 if mode == 0:
