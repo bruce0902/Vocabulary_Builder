@@ -9,10 +9,7 @@ num = 0
 
 def clear():
     os.system('cls')
-
-
 clear()
-
 
 def read_words():
     data = open(r'D:\SUMMER\GRE\words.txt')
@@ -50,7 +47,6 @@ def read_meaning():
 
 words = read_words()
 meaning = read_meaning()
-length = len(words)
 
 
 def learn(x):
@@ -68,10 +64,10 @@ def learn(x):
         print(words[num])
         print(meaning[num])
     if x.event_type == 'down' and x.name == 'down':
-        if len(words) > 0 and num < len(words) - 1:
-            del words[num - 1]
-            del meaning[num - 1]
-            clear()
+        del words[num]
+        del meaning[num]
+        clear()
+        if len(words)>0 and num < len(words):
             print(words[num])
             print(meaning[num])
         else:
@@ -98,13 +94,12 @@ def test(x):
             del meaning[num - 1]
             clear()
 
-
 print(words[num])
 print(meaning[num])
 if mode == 0:
     keyboard.hook(learn)
-
+    
 if mode == 1:
     keyboard.hook(test)
-
+    
 keyboard.wait('esc')
