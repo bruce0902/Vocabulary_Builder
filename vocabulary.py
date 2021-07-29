@@ -3,6 +3,7 @@ import os
 
 num = 0
 mode = 1
+#change mode here 
 # mode = 0:learn mode
 # mode = 1:test mode
 
@@ -12,6 +13,7 @@ def clear():
 clear()
 
 def read_words():
+    #the source of the words,change location here
     data = open(r'D:\SUMMER\GRE\words.txt')
     cab = []
     for line in data.readlines():
@@ -29,6 +31,7 @@ def read_words():
 
 
 def read_meaning():
+    #the source of the meaning,change location here
     data = open(r'D:\SUMMER\GRE\meaning.txt', encoding='utf-8')
     cab = []
     for line in data.readlines():
@@ -110,5 +113,6 @@ if mode == 1:
     print(words[num])
     keyboard.hook(test)
     
+#press ctrl to close
 keyboard.wait('ctrl')
 clear()
