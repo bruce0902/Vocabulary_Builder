@@ -1,11 +1,10 @@
 import keyboard
 import os
-import sys
 
 num = 0
 mode = 1
-# mode = 0:背单词模式
-# mode = 1:检测模式
+# mode = 0:learn mode
+# mode = 1:test mode
 
 
 def clear():
