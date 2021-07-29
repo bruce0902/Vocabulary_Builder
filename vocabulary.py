@@ -1,12 +1,8 @@
 import keyboard
 import os
-
 num = 0
-mode = 1
-#change mode here 
-# mode = 0:learn mode
-# mode = 1:test mode
-
+# mode = 0
+mode = input("Press l to start learn mode, press t to start test mode:")
 
 def clear():
     os.system('cls')
@@ -75,6 +71,10 @@ def learn(x):
             print(meaning[num])
         else:
             print("complete!")
+    if x.event_type == 'down' and x.name == 'alt':
+        for i in range (0,len(words)):
+            print(words[i])
+            print(meaning[i])
 
 
 def test(x):
@@ -102,20 +102,22 @@ def test(x):
             print(words[num])
         else:
             print("complete!")
-    if x.event_type == 'down' and x.name == 'shift':
+    if x.event_type == 'down' and x.name == 'enter':
         clear()
         print("Number of the words left:" )
         print(len(words))
 
 
-if mode == 0:
+if mode == "l":
     print(words[num])
     print(meaning[num])
     keyboard.hook(learn)
     
-if mode == 1:
+if mode == "t":
     print(words[num])
     keyboard.hook(test)
+else:
+    pass
     
 #press ctrl to close
 keyboard.wait('ctrl')
