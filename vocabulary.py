@@ -110,4 +110,5 @@ if mode == 1:
     print(words[num])
     keyboard.hook(test)
     
-keyboard.wait('esc')
+keyboard.wait('ctrl')
+clear()
