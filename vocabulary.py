@@ -1,10 +1,11 @@
 import keyboard
 import os
+import sys
 
-mode = 0
+num = 0
+mode = 1
 # mode = 0:背单词模式
 # mode = 1:检测模式
-num = 0
 
 
 def clear():
@@ -78,28 +79,36 @@ def test(x):
     global num
     if x.event_type == 'down' and x.name == 'left':
         clear()
-        print(words[num])
         if num > 0:
             num = num - 1
+        print(words[num])
     if x.event_type == 'down' and x.name == 'right':
         clear()
-        print(words[num])
         if num < len(words) - 1:
             num = num + 1
+        print(words[num])
     if x.event_type == 'down' and x.name == 'up':
-        print(meaning[num - 1])
+        print(meaning[num])
     if x.event_type == 'down' and x.name == 'down':
-        if len(words) > 0:
-            del words[num - 1]
-            del meaning[num - 1]
-            clear()
+        del words[num]
+        del meaning[num]
+        clear()
+        if len(words) > 0 and num < len(words):
+            print(words[num])
+        elif 0 < len(words) == num:
+            num = 0
+            print(words[num])
+        else:
+            print("complete!")
 
-print(words[num])
-print(meaning[num])
+
 if mode == 0:
+    print(words[num])
+    print(meaning[num])
     keyboard.hook(learn)
     
 if mode == 1:
+    print(words[num])
     keyboard.hook(test)
     
 keyboard.wait('esc')
