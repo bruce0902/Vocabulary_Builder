@@ -1,7 +1,7 @@
 import keyboard
 import os
 
-mode = 1
+mode = 0
 # mode = 0:背单词模式
 # mode = 1:检测模式
 num = 0
@@ -9,6 +9,9 @@ num = 0
 
 def clear():
     os.system('cls')
+
+
+clear()
 
 
 def read_words():
@@ -54,16 +57,16 @@ def learn(x):
     global num
     if x.event_type == 'down' and x.name == 'left':
         clear()
-        print(words[num])
-        print(meaning[num])
         if num > 0:
             num = num - 1
-    if x.event_type == 'down' and x.name == 'right':
-        clear()
         print(words[num])
         print(meaning[num])
+    if x.event_type == 'down' and x.name == 'right':
+        clear()
         if num < len(words) - 1:
             num = num + 1
+        print(words[num])
+        print(meaning[num])
     if x.event_type == 'down' and x.name == 'down':
         if len(words) > 0 and num < len(words) - 1:
             del words[num - 1]
@@ -96,8 +99,12 @@ def test(x):
             clear()
 
 
+print(words[num])
+print(meaning[num])
 if mode == 0:
     keyboard.hook(learn)
+
 if mode == 1:
     keyboard.hook(test)
-keyboard.wait()
+
+keyboard.wait('esc')
