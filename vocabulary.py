@@ -53,7 +53,7 @@ meaning = read_meaning()
 
 
 def learn(x):
-    global num
+    global num,mode
     if x.event_type == 'down' and x.name == 'left':
         clear()
         if num > 0:
@@ -102,6 +102,10 @@ def test(x):
             print(words[num])
         else:
             print("complete!")
+    if x.event_type == 'down' and x.name == 'shift':
+        clear()
+        print("Number of the words left:" )
+        print(len(words))
 
 
 if mode == 0:
