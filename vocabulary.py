@@ -1,20 +1,21 @@
 import keyboard
 import os
 
-size = os.get_terminal_size()
-sz = 0
-
 
 def clear():
     os.system('cls')
+    size = os.get_terminal_size()
+    vertical = int((size[1])/2-2)
+    for i in range (0,vertical):
+        print()
 
 
 def print_middle(x):
-    sz = int((size[0]) / 2 - 7)
-    for i in range(0, sz):
-        print(" ", end='')
+    size = os.get_terminal_size()
+    horizontal = int((size[0])/2-7)
+    for i in range (0,horizontal):
+        print(" ",end = '')
     print(x)
-
 
 clear()
 mode = input("Press l to start learn mode, press t to start test mode:")
@@ -22,6 +23,7 @@ list = input("put in the list you want to learn:")
 num = 0
 
 clear()
+
 
 
 def read_words():
@@ -98,7 +100,7 @@ def learn(x):
         print_middle("Press page up to go to the first word")
     if x.event_type == 'down' and x.name == 'n':
         print_middle("The number of this word is: " +
-                     str(num + 1) + " / " + str(len(words)))
+              str(num + 1) + " / " + str(len(words)))
 
 
 def test(x):
@@ -143,7 +145,7 @@ def test(x):
         print_middle("Press page up to go to the first word")
     if x.event_type == 'down' and x.name == 'n':
         print_middle("The number of this word is: " +
-                     str(num + 1) + " / " + str(len(words)))
+              str(num + 1) + " / " + str(len(words)))
 
 
 if mode == "l":
