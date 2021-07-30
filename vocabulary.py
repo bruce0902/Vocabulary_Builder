@@ -8,13 +8,14 @@ def clear():
 
 clear()
 mode = input("Press l to start learn mode, press t to start test mode:")
+list = input("put in the list you want to learn:")
 num = 0
 clear()
 
 
 def read_words():
-    # the source of the words,change location here
-    data = open(r'D:\SUMMER\GRE\words.txt')
+    location = "D:\SUMMER\GRE\words" + list + ".txt"
+    data = open(location,"r")
     cab = []
     for line in data.readlines():
         cab.append(line.strip().split(','))
@@ -31,8 +32,8 @@ def read_words():
 
 
 def read_meaning():
-    # the source of the meaning,change location here
-    data = open(r'D:\SUMMER\GRE\meaning.txt', encoding='utf-8')
+    location = "D:\SUMMER\GRE\meaning" + list + ".txt"
+    data = open(location,"r", encoding='utf-8')
     cab = []
     for line in data.readlines():
         cab.append(line.strip().split(','))
@@ -97,6 +98,9 @@ def learn(x):
     if x.event_type == 'down' and x.name == 'tab':
         clear()
         print("Press page up to go to the first word")
+    if x.event_type == 'down' and x.name == 'n':
+        print("The number of this word is: " +
+              str(num + 1) + " / " + str(len(words)))
 
 
 def test(x):
@@ -136,6 +140,9 @@ def test(x):
         print(words[num])
     if x.event_type == 'down' and x.name == 'tab':
         print("Press page up to go to the first word")
+    if x.event_type == 'down' and x.name == 'n':
+        print("The number of this word is: " +
+              str(num + 1) + " / " + str(len(words)))
 
 
 if mode == "l":
