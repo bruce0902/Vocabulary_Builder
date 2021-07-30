@@ -67,24 +67,11 @@ def learn(x):
             num = num + 1
         print(words[num])
         print(meaning[num])
-    if x.event_type == 'down' and x.name == 'down':
-        clear()
-        del words[num]
-        del meaning[num]
-        if len(words) > 0 and num < len(words):
-            print(words[num])
-            print(meaning[num])
-        else:
-            print("complete!")
-    if x.event_type == 'down' and x.name == 'alt':
+    if x.event_type == 'down' and x.name == 'enter':
         clear()
         for i in range(0, len(words)):
             print(words[i])
             print(meaning[i])
-    if x.event_type == 'down' and x.name == 'enter':
-        clear()
-        print("Number of the words left:")
-        print(len(words))
     if x.event_type == 'down' and x.name == 'page up':
         clear()
         num = 0
