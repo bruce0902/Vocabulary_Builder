@@ -1,15 +1,19 @@
 import keyboard
 import os
-num = 0
-# mode = 0
-mode = input("Press l to start learn mode, press t to start test mode:")
+
 
 def clear():
     os.system('cls')
+
+
+clear()
+mode = input("Press l to start learn mode, press t to start test mode:")
+num = 0
 clear()
 
+
 def read_words():
-    #the source of the words,change location here
+    # the source of the words,change location here
     data = open(r'D:\SUMMER\GRE\words.txt')
     cab = []
     for line in data.readlines():
@@ -27,7 +31,7 @@ def read_words():
 
 
 def read_meaning():
-    #the source of the meaning,change location here
+    # the source of the meaning,change location here
     data = open(r'D:\SUMMER\GRE\meaning.txt', encoding='utf-8')
     cab = []
     for line in data.readlines():
@@ -49,7 +53,7 @@ meaning = read_meaning()
 
 
 def learn(x):
-    global num,mode
+    global num, mode
     if x.event_type == 'down' and x.name == 'left':
         clear()
         if num > 0:
@@ -63,18 +67,36 @@ def learn(x):
         print(words[num])
         print(meaning[num])
     if x.event_type == 'down' and x.name == 'down':
+        clear()
         del words[num]
         del meaning[num]
-        clear()
-        if len(words)>0 and num < len(words):
+        if len(words) > 0 and num < len(words):
             print(words[num])
             print(meaning[num])
         else:
             print("complete!")
     if x.event_type == 'down' and x.name == 'alt':
-        for i in range (0,len(words)):
+        clear()
+        for i in range(0, len(words)):
             print(words[i])
             print(meaning[i])
+    if x.event_type == 'down' and x.name == 'enter':
+        clear()
+        print("Number of the words left:")
+        print(len(words))
+    if x.event_type == 'down' and x.name == 'page up':
+        clear()
+        num = 0
+        print(words[num])
+        print(meaning[num])
+    if x.event_type == 'down' and x.name == 'page down':
+        clear()
+        num = len(words)-1
+        print(words[num])
+        print(meaning[num])
+    if x.event_type == 'down' and x.name == 'tab':
+        clear()
+        print("Press page up to go to the first word")
 
 
 def test(x):
@@ -92,9 +114,9 @@ def test(x):
     if x.event_type == 'down' and x.name == 'up':
         print(meaning[num])
     if x.event_type == 'down' and x.name == 'down':
+        clear()
         del words[num]
         del meaning[num]
-        clear()
         if len(words) > 0 and num < len(words):
             print(words[num])
         elif 0 < len(words) == num:
@@ -104,21 +126,29 @@ def test(x):
             print("complete!")
     if x.event_type == 'down' and x.name == 'enter':
         clear()
-        print("Number of the words left:" )
+        print("Number of the words left:")
         print(len(words))
+    if x.event_type == 'down' and x.name == 'page up':
+        num = 0
+        print(words[num])
+    if x.event_type == 'down' and x.name == 'page down':
+        num = len(words)-1
+        print(words[num])
+    if x.event_type == 'down' and x.name == 'tab':
+        print("Press page up to go to the first word")
 
 
 if mode == "l":
     print(words[num])
     print(meaning[num])
     keyboard.hook(learn)
-    
+
 if mode == "t":
     print(words[num])
     keyboard.hook(test)
 else:
     pass
-    
-#press ctrl to close
+
+# press ctrl to close
 keyboard.wait('ctrl')
 clear()
