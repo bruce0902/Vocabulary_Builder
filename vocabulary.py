@@ -5,6 +5,9 @@ import os
 def clear():
     os.system('cls')
 
+def middle():
+    print("                     ")
+
 
 clear()
 mode = input("Press l to start learn mode, press t to start test mode:")
@@ -14,7 +17,7 @@ clear()
 
 
 def read_words():
-    location = "D:\SUMMER\GRE\words" + list + ".txt"
+    location = "D:\SUMMER\Vocabulary_Builder\words" + list + ".txt"
     data = open(location,"r")
     cab = []
     for line in data.readlines():
@@ -32,7 +35,7 @@ def read_words():
 
 
 def read_meaning():
-    location = "D:\SUMMER\GRE\meaning" + list + ".txt"
+    location = "D:\SUMMER\Vocabulary_Builder\meaning" + list + ".txt"
     data = open(location,"r", encoding='utf-8')
     cab = []
     for line in data.readlines():
@@ -120,12 +123,15 @@ def test(x):
         print("Number of the words left:")
         print(len(words))
     if x.event_type == 'down' and x.name == 'page up':
+        clear()
         num = 0
         print(words[num])
     if x.event_type == 'down' and x.name == 'page down':
+        clear()
         num = len(words)-1
         print(words[num])
     if x.event_type == 'down' and x.name == 'tab':
+        clear()
         print("Press page up to go to the first word")
     if x.event_type == 'down' and x.name == 'n':
         print("The number of this word is: " +
