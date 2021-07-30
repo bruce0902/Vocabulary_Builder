@@ -5,7 +5,7 @@ import os
 def clear():
     os.system('cls')
     size = os.get_terminal_size()
-    vertical = int((size[1])/2-2)
+    vertical = int((size[1])/2-3)
     for i in range(0, vertical):
         print()
 
@@ -19,14 +19,26 @@ def print_middle(x):
 
 
 clear()
-mode = input("Press l to start learn mode, press t to start test mode:")
-list = input("put in the list you want to learn:")
+
+mode = input("Press \'l\' to start learn mode, press \'t\' to start test mode:")
+while (mode != 'l' and mode != 't'):
+    clear()
+    print("wrong input! please input letter \'l\' or \'t\' in lower case")
+    mode = input(
+        "Press \'l\' to start learn mode, press \'t\' to start test mode:")
+
+column = input("put in the column you want to learn:")
+while len(column) != 2 or not column.isdigit():
+    clear()
+    print("wrong input! please input number like 01, 03, 11...")
+    column = input("put in the column you want to learn:")
+
 num = 0
 clear()
 
 
 def read_words():
-    location = "D:\SUMMER\Vocabulary_Builder\words" + list + ".txt"
+    location = "D:\SUMMER\Vocabulary_Builder\words" + column + ".txt"
     data = open(location, "r")
     cab = []
     for line in data.readlines():
@@ -44,7 +56,7 @@ def read_words():
 
 
 def read_meaning():
-    location = "D:\SUMMER\Vocabulary_Builder\meaning" + list + ".txt"
+    location = "D:\SUMMER\Vocabulary_Builder\meaning" + column + ".txt"
     data = open(location, "r", encoding='utf-8')
     cab = []
     for line in data.readlines():
@@ -96,7 +108,8 @@ def learn(x):
         print_middle(meaning[num])
     if x.event_type == 'down' and x.name == 'tab':
         clear()
-        print_middle("Press page up to go to the first word")
+        print(
+            " Press page up to go to the first word \n Press page down to go to the last \n Press enter to show all the words \n Press n to show the number of the current word \n Press ctrl to exit")
     if x.event_type == 'down' and x.name == 'n':
         print_middle("The number of this word is: " +
                      str(num + 1) + " / " + str(len(words)))
@@ -108,40 +121,64 @@ def test(x):
         clear()
         if num > 0:
             num = num - 1
-        print_middle(words[num])
+        try:
+            print_middle(words[num])
+        except:
+            clear()
+            print_middle("complete! press ctrl to exit")
     if x.event_type == 'down' and x.name == 'right':
         clear()
         if num < len(words) - 1:
             num = num + 1
-        print_middle(words[num])
+        try:
+            print_middle(words[num])
+        except:
+            clear()
+            print_middle("complete! press ctrl to exit")
     if x.event_type == 'down' and x.name == 'up':
-        print_middle(meaning[num])
+        try:
+            print_middle(meaning[num])
+        except:
+            clear()
+            print_middle("complete! press ctrl to exit")
     if x.event_type == 'down' and x.name == 'down':
         clear()
-        del words[num]
-        del meaning[num]
+        try:
+            del words[num]
+            del meaning[num]
+        except:
+            clear()
+            print_middle("complete! press ctrl to exit")
         if len(words) > 0 and num < len(words):
             print_middle(words[num])
         elif 0 < len(words) == num:
             num = 0
             print_middle(words[num])
-        else:
-            print_middle("complete!")
+
     if x.event_type == 'down' and x.name == 'enter':
         clear()
-        print_middle("Number of the words left:")
-        print_middle(len(words))
+        for i in range(0, len(words)):
+            print_middle(words[i])
+            print_middle(meaning[i])
     if x.event_type == 'down' and x.name == 'page up':
         clear()
         num = 0
-        print_middle(words[num])
+        try:
+            print_middle(words[num])
+        except:
+            clear()
+            print_middle("complete! press ctrl to exit")
     if x.event_type == 'down' and x.name == 'page down':
         clear()
         num = len(words)-1
-        print_middle(words[num])
+        try:
+            print_middle(words[num])
+        except:
+            clear()
+            print_middle("complete! press ctrl to exit")
     if x.event_type == 'down' and x.name == 'tab':
         clear()
-        print_middle("Press page up to go to the first word")
+        print(" Press page up to go to the first word \n Press page down to go to the last \n Press enter to show all the words \n Press n to show the number of the current word \n Press ctrl to exit")
     if x.event_type == 'down' and x.name == 'n':
         print_middle("The number of this word is: " +
                      str(num + 1) + " / " + str(len(words)))
@@ -158,6 +195,5 @@ if mode == "t":
 else:
     pass
 
-# press ctrl to close
 keyboard.wait('ctrl')
 clear()
