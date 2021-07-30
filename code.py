@@ -38,7 +38,7 @@ clear()
 
 
 def read_words():
-    location = "D:\SUMMER\Vocabulary_Builder\words" + column + ".txt"
+    location = "D:/SUMMER\Vocabulary_Builder/words" + column + ".txt"
     data = open(location, "r")
     cab = []
     for line in data.readlines():
@@ -56,7 +56,7 @@ def read_words():
 
 
 def read_meaning():
-    location = "D:\SUMMER\Vocabulary_Builder\meaning" + column + ".txt"
+    location = "D:/SUMMER/Vocabulary_Builder/meaning" + column + ".txt"
     data = open(location, "r", encoding='utf-8')
     cab = []
     for line in data.readlines():
