@@ -12,7 +12,7 @@ def clear():
 
 def print_middle(x):
     size = os.get_terminal_size()
-    horizontal = int((size[0])/2-7)
+    horizontal = int((size[0])/2-5)
     for i in range(0, horizontal):
         print(" ", end='')
     print(x)
@@ -27,6 +27,14 @@ while (mode != 'l' and mode != 't'):
     mode = input(
         "Press \'l\' to start learn mode, press \'t\' to start test mode:")
 
+clear()
+try:
+    with open("./column.json","r") as r:
+        last_column = r.read()
+        print("The last column you learnt was column: " + last_column)
+except:
+    print("This is the first time you use this program")
+
 column = input("put in the column you want to learn:")
 while len(column) != 2 or not column.isdigit():
     clear()
@@ -36,9 +44,11 @@ while len(column) != 2 or not column.isdigit():
 num = 0
 clear()
 
+with open("./column.json","w") as w:
+    w.write(column)
+
 
 def read_words():
-    # location = "D:/SUMMER\Vocabulary_Builder/words/words" + column + ".txt"
     location = "./words/words" + column + ".txt"
     data = open(location, "r")
     cab = []
