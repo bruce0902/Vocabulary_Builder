@@ -1,5 +1,7 @@
-import keyboard
 import os
+
+import keyboard
+import xlrd3 as xlrd
 
 
 def clear():
@@ -10,15 +12,8 @@ def clear():
         print()
 
 
-def print_middle(x):
-    size = os.get_terminal_size()
-    horizontal = int((size[0])/2-5)
-    for i in range(0, horizontal):
-        print(" ", end='')
-    print(x)
-
-
 clear()
+
 
 mode = input("Press \'l\' to start learn mode, press \'t\' to start test mode:")
 while (mode != 'l' and mode != 't'):
@@ -27,65 +22,47 @@ while (mode != 'l' and mode != 't'):
     mode = input(
         "Press \'l\' to start learn mode, press \'t\' to start test mode:")
 
-clear()
 try:
-    with open("./column.json", "r") as r:
-        last_column = r.read()
-        print("The last column you learnt was column: " + last_column)
+    with open("./group.json", "r") as r:
+        last_group = r.read()
+        print("The last group you learnt was group: " + last_group)
 except:
     print("This is the first time you use this program")
 
-column = input("put in the column you want to learn:")
-while not column.isdigit():
-    clear()
-    print("wrong input! please input number like 1, 2, 3, 11...")
-    column = input("put in the column you want to learn:")
+book = xlrd.open_workbook("data.xlsx")
+sheet = book.sheet_by_index(1)
+
+words = [str(sheet.cell_value(i, 1)) for i in range(1, sheet.nrows)]
+meaning = [str(sheet.cell_value(i, 2)) for i in range(1, sheet.nrows)]
+if len(words) % 50 == 0:
+    number_of_lists = int(len(words)/50)
+else:
+    number_of_lists = int(1+len(words)/50)
+for i in range(number_of_lists):
+    exec("words%s=words[50*%d:50*%d+50]" % (i+1, i, i))
+    exec("meaning%s=meaning[50*%d:50*%d+50]" % (i+1, i, i))
+group = input("put in the group you want to learn:")
+word_chosen = "words" + group
+meaning_chosen = "meaning" + group
+words = eval(word_chosen)
+meaning = eval(meaning_chosen)
+
+clear()
+
 
 num = 0
 clear()
 
-with open("./column.json", "w") as w:
-    w.write(column)
+with open("./group.json", "w") as w:
+    w.write(group)
 
 
-def read_words():
-    location = "./words/words" + column + ".txt"
-    data = open(location, "r")
-    cab = []
-    for line in data.readlines():
-        cab.append(line.strip().split(','))
-    cab_f = []
-    for i in range(len(cab)):
-        for j in range(len(cab[i])):
-            if cab[i][j] != '':
-                cab_f.append(cab[i][j].strip())
-    cab_final = []
-    for i in cab_f:
-        for j in i.split(' '):
-            cab_final.append(j)
-    return cab_final
-
-
-def read_meaning():
-    location = "./meaning/meaning" + column + ".txt"
-    data = open(location, "r", encoding='utf-8')
-    cab = []
-    for line in data.readlines():
-        cab.append(line.strip().split(','))
-    cab_f = []
-    for i in range(len(cab)):
-        for j in range(len(cab[i])):
-            if cab[i][j] != '':
-                cab_f.append(cab[i][j].strip())
-    cab_final = []
-    for i in cab_f:
-        for j in i.split(' '):
-            cab_final.append(j)
-    return cab_final
-
-
-words = read_words()
-meaning = read_meaning()
+def print_middle(x):
+    size = os.get_terminal_size()
+    horizontal = int((size[0])/2-5)
+    for i in range(0, horizontal):
+        print(" ", end='')
+    print(x)
 
 
 def learn(x):
@@ -120,7 +97,9 @@ def learn(x):
     if x.event_type == 'down' and x.name == 'tab':
         clear()
         print(
-            " Press page up to go to the first word \n Press page down to go to the last \n Press enter to show all the words \n Press n to show the number of the current word \n Press ctrl to exit")
+            ''' Press page up to go to the first word \n Press page down to 
+            go to the last \n Press enter to show all the words \n Press n 
+            to show the number of the current word \n Press ctrl to exit''')
     if x.event_type == 'down' and x.name == 'n':
         print_middle("The number of this word is: " +
                      str(num + 1) + " / " + str(len(words)))
@@ -192,7 +171,10 @@ def test(x):
             print_middle("complete! press ctrl to exit")
     if x.event_type == 'down' and x.name == 'tab':
         clear()
-        print(" Press page up to go to the first word \n Press page down to go to the last \n Press enter to show all the words \n Press n to show the number of the current word \n Press ctrl to exit")
+        print(''' Press page up to go to the first word \n 
+        Press page down to go to the last \n Press enter to 
+        show all the words \n Press n to show the number of
+         the current word \n Press ctrl to exit''')
     if x.event_type == 'down' and x.name == 'n':
         print_middle("The number of this word is: " +
                      str(num + 1) + " / " + str(len(words)))
