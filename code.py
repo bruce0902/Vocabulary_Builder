@@ -29,22 +29,22 @@ while (mode != 'l' and mode != 't'):
 
 clear()
 try:
-    with open("./column.json","r") as r:
+    with open("./column.json", "r") as r:
         last_column = r.read()
         print("The last column you learnt was column: " + last_column)
 except:
     print("This is the first time you use this program")
 
 column = input("put in the column you want to learn:")
-while len(column) != 2 or not column.isdigit():
+while not column.isdigit():
     clear()
-    print("wrong input! please input number like 01, 03, 11...")
+    print("wrong input! please input number like 1, 2, 3, 11...")
     column = input("put in the column you want to learn:")
 
 num = 0
 clear()
 
-with open("./column.json","w") as w:
+with open("./column.json", "w") as w:
     w.write(column)
 
 
@@ -165,6 +165,9 @@ def test(x):
         elif 0 < len(words) == num:
             num = 0
             print_middle(words[num])
+        elif len(words) == 0:
+            clear()
+            print_middle("complete! press ctrl to exit")
 
     if x.event_type == 'down' and x.name == 'enter':
         clear()
