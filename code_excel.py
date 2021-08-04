@@ -30,10 +30,18 @@ except:
     print("This is the first time you use this program")
 
 book = xlrd.open_workbook("data.xlsx")
-sheet = book.sheet_by_index(1)
+sheet = book.sheet_by_index(0)
 
-words = [str(sheet.cell_value(i, 1)) for i in range(1, sheet.nrows)]
-meaning = [str(sheet.cell_value(i, 2)) for i in range(1, sheet.nrows)]
+words = [str(sheet.cell_value(i, 0)) for i in range(1, sheet.nrows)]
+meaning = [str(sheet.cell_value(i, 1)) for i in range(1, sheet.nrows)]
+# target = sheet.cell_value(rowx=15,colx=1)
+# target = target.replace('\n', '\t').replace('\r', '')
+# print(target)
+# print(meaning[14].replace('\n', '\t').replace('\r', ''))
+
+for i in range(len(words)):
+    meaning[i] = meaning[i].replace('\n', ' ').replace('\r', '')
+
 if len(words) % 50 == 0:
     number_of_lists = int(len(words)/50)
 else:
