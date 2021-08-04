@@ -36,6 +36,7 @@ words = [str(sheet.cell_value(i, 0)) for i in range(1, sheet.nrows)]
 meaning = [str(sheet.cell_value(i, 1)) for i in range(1, sheet.nrows)]
 
 for i in range(len(words)):
+    meaning[i] = meaning[i].replace(' ', '')
     meaning[i] = meaning[i].replace('\n', ' ').replace('\r', '')
 
 if len(words) % 50 == 0:
@@ -64,7 +65,6 @@ with open("./group.json", "w") as w:
 
 def print_middle(x):
     size = os.get_terminal_size()
-    # width = len(x.encode('utf-8'))
     width_ori = len(x)
     width_utf = len(x.encode('utf-8'))
     width = int((width_utf - width_ori) / 2 + width_ori)
