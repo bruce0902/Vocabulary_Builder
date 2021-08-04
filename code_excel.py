@@ -15,12 +15,12 @@ def clear():
 clear()
 
 
-mode = input("Press \'l\' to start learn mode, press \'t\' to start test mode:")
+mode = input("Press \'l\' to start learn mode, press \'t\' to start test mode: ")
 while (mode != 'l' and mode != 't'):
     clear()
     print("wrong input! please input letter \'l\' or \'t\' in lower case")
     mode = input(
-        "Press \'l\' to start learn mode, press \'t\' to start test mode:")
+        "Press \'l\' to start learn mode, press \'t\' to start test mode: ")
 
 try:
     with open("./group.json", "r") as r:
@@ -34,10 +34,6 @@ sheet = book.sheet_by_index(0)
 
 words = [str(sheet.cell_value(i, 0)) for i in range(1, sheet.nrows)]
 meaning = [str(sheet.cell_value(i, 1)) for i in range(1, sheet.nrows)]
-# target = sheet.cell_value(rowx=15,colx=1)
-# target = target.replace('\n', '\t').replace('\r', '')
-# print(target)
-# print(meaning[14].replace('\n', '\t').replace('\r', ''))
 
 for i in range(len(words)):
     meaning[i] = meaning[i].replace('\n', ' ').replace('\r', '')
@@ -49,7 +45,8 @@ else:
 for i in range(number_of_lists):
     exec("words%s=words[50*%d:50*%d+50]" % (i+1, i, i))
     exec("meaning%s=meaning[50*%d:50*%d+50]" % (i+1, i, i))
-group = input("put in the group you want to learn:")
+group = input("There are " + str(number_of_lists) +
+              " groups, put in the group you want to learn: ")
 word_chosen = "words" + group
 meaning_chosen = "meaning" + group
 words = eval(word_chosen)
