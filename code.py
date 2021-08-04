@@ -89,7 +89,8 @@ def read_meaning():
 
 words = read_words()
 meaning = read_meaning()
-
+for i in range(len(words)):
+    meaning[i] = meaning[i].replace(' ', '')
 
 def learn(x):
     global num, mode
