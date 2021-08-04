@@ -15,7 +15,8 @@ def clear():
 clear()
 
 
-mode = input("Press \'l\' to start learn mode, press \'t\' to start test mode: ")
+mode = input(
+    "Press \'l\' to start learn mode, press \'t\' to start test mode: ")
 while (mode != 'l' and mode != 't'):
     clear()
     print("wrong input! please input letter \'l\' or \'t\' in lower case")
@@ -48,10 +49,20 @@ for i in range(number_of_lists):
     exec("meaning%s=meaning[50*%d:50*%d+50]" % (i+1, i, i))
 group = input("There are " + str(number_of_lists) +
               " groups, put in the group you want to learn: ")
+lists = []
+for i in range(1, number_of_lists):
+    lists.append(str(i))
+    
+while group not in lists:
+    clear()
+    print("wrong input! please input number like 1, 2, 3, 11...")
+    group = input("put in the group that you want to learn:")
 word_chosen = "words" + group
 meaning_chosen = "meaning" + group
+
 words = eval(word_chosen)
 meaning = eval(meaning_chosen)
+
 
 clear()
 
