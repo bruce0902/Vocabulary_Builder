@@ -1,6 +1,6 @@
 # Vocabulary_Builder
 A program on terminal helping me to build my vocabulary.  
-If want to see the key-binding of this program, press tab during using this script.
+If you want to see the key-binding of this program, press tab during using this script.
 This branch can read words and meaning from excel format(.xlsx file)
 
 ## 这个版本可以从excel格式的文件中读取单词和意思。
