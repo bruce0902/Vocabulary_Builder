@@ -7,7 +7,7 @@ import xlrd3 as xlrd
 def clear():
     os.system('cls')
     size = os.get_terminal_size()
-    vertical = int((size[1])/2-3)
+    vertical = int((size[1])/2-2)
     for i in range(0, vertical):
         print()
 
@@ -64,7 +64,11 @@ with open("./group.json", "w") as w:
 
 def print_middle(x):
     size = os.get_terminal_size()
-    horizontal = int((size[0])/2-5)
+    # width = len(x.encode('utf-8'))
+    width_ori = len(x)
+    width_utf = len(x.encode('utf-8'))
+    width = int((width_utf - width_ori) / 2 + width_ori)
+    horizontal = int((size[0]-width)/2)
     for i in range(0, horizontal):
         print(" ", end='')
     print(x)
