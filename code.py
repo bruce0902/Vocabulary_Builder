@@ -1,5 +1,6 @@
-import keyboard
 import os
+
+import keyboard
 
 
 def clear():
@@ -38,7 +39,7 @@ try:
 except:
     print("This is the first time you use this program")
 
-column = input("put in the column you want to learn:")
+column = input("put in the column you want to learn, input 0 to read your saved file: ")
 while not column.isdigit():
     clear()
     print("wrong input! please input number like 1, 2, 3, 11...")
@@ -89,8 +90,7 @@ def read_meaning():
 
 words = read_words()
 meaning = read_meaning()
-for i in range(len(words)):
-    meaning[i] = meaning[i].replace(' ', '')
+
 
 def learn(x):
     global num, mode
@@ -124,7 +124,11 @@ def learn(x):
     if x.event_type == 'down' and x.name == 'tab':
         clear()
         print(
-            " Press page up to go to the first word \n Press page down to go to the last \n Press enter to show all the words \n Press n to show the number of the current word \n Press ctrl to exit")
+            ''' Press page up to go to the first word \n
+              Press page down to go to the last \n
+              Press enter to show all the words \n 
+              Press n to show the number of the current word \n
+              Press ctrl to exit''')
     if x.event_type == 'down' and x.name == 'n':
         print_middle("The number of this word is: " +
                      str(num + 1) + " / " + str(len(words)))
@@ -196,10 +200,29 @@ def test(x):
             print_middle("complete! press ctrl to exit")
     if x.event_type == 'down' and x.name == 'tab':
         clear()
-        print(" Press page up to go to the first word \n Press page down to go to the last \n Press enter to show all the words \n Press n to show the number of the current word \n Press ctrl to exit")
+        print(''' Press page up to go to the first word \n
+                Press page down to go to the last \n
+                Press enter to show all the words \n
+                Press n to show the number of the current word \n
+                Press ctrl to exit''')
     if x.event_type == 'down' and x.name == 'n':
         print_middle("The number of this word is: " +
                      str(num + 1) + " / " + str(len(words)))
+    if x.event_type == 'down' and x.name == 's':
+        words_saved = words
+        meaning_saved = meaning
+        words_s = open('./words/words0.txt', 'w')
+        for w in words_saved:
+            words_s.write(w)
+            words_s.write('\n')
+        words_s.close()
+        meaning_s = open('./meaning/meaning0.txt', 'w', encoding='utf-8')
+        for m in meaning_saved:
+            meaning_s.write(m)
+            meaning_s.write('\n')
+        meaning_s.close()
+        clear()
+        print_middle("saved!")
 
 
 if mode == "l":
