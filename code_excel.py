@@ -48,20 +48,62 @@ for i in range(number_of_lists):
     exec("words%s=words[50*%d:50*%d+50]" % (i+1, i, i))
     exec("meaning%s=meaning[50*%d:50*%d+50]" % (i+1, i, i))
 group = input("There are " + str(number_of_lists) +
-              " groups, put in the group you want to learn: ")
+              ''' groups, put in the group you want to learn,
+input 0 if you want to learn the saved files ''')
 lists = []
-for i in range(1, number_of_lists):
+for i in range(0, number_of_lists):
     lists.append(str(i))
-    
+
 while group not in lists:
     clear()
     print("wrong input! please input number like 1, 2, 3, 11...")
-    group = input("put in the group that you want to learn:")
-word_chosen = "words" + group
-meaning_chosen = "meaning" + group
+    group = input(''' groups, put in the group you want to learn: 
+input 0 if you want to learn the saved files ''')
 
-words = eval(word_chosen)
-meaning = eval(meaning_chosen)
+
+def read_words():
+    data = open("saved_words.txt", "r")
+    cab = []
+    for line in data.readlines():
+        cab.append(line.strip().split(','))
+    cab_f = []
+    for i in range(len(cab)):
+        for j in range(len(cab[i])):
+            if cab[i][j] != '':
+                cab_f.append(cab[i][j].strip())
+    cab_final = []
+    for i in cab_f:
+        for j in i.split(' '):
+            cab_final.append(j)
+    return cab_final
+
+
+def read_meaning():
+    data = open("saved_meaing.txt", "r", encoding='utf-8')
+    cab = []
+    for line in data.readlines():
+        cab.append(line.strip().split(','))
+    cab_f = []
+    for i in range(len(cab)):
+        for j in range(len(cab[i])):
+            if cab[i][j] != '':
+                cab_f.append(cab[i][j].strip())
+    cab_final = []
+    for i in cab_f:
+        for j in i.split(' '):
+            cab_final.append(j)
+    return cab_final
+
+
+if group == "0":
+    words = read_words()
+    meaning = read_meaning()
+else:
+    word_chosen = "words" + group
+    meaning_chosen = "meaning" + group
+
+    words = eval(word_chosen)
+    meaning = eval(meaning_chosen)
 
 
 clear()
@@ -198,6 +240,21 @@ def test(x):
     if x.event_type == 'down' and x.name == 'n':
         print_middle("The number of this word is: " +
                      str(num + 1) + " / " + str(len(words)))
+    if x.event_type == 'down' and x.name == 's':
+        words_saved = words
+        meaning_saved = meaning
+        words_s = open('saved_words.txt', 'w')
+        for w in words_saved:
+            words_s.write(w)
+            words_s.write('\n')
+        words_s.close()
+        meaning_s = open('saved_meaing.txt', 'w', encoding='utf-8')
+        for m in meaning_saved:
+            meaning_s.write(m)
+            meaning_s.write('\n')
+        meaning_s.close()
+        clear()
+        print_middle("saved!")
 
 
 if mode == "l":
