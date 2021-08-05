@@ -16,12 +16,12 @@ clear()
 
 
 mode = input(
-    "Press \'l\' to start learn mode, press \'t\' to start test mode: ")
+    "Press \'l\' to start learn mode, press \'t\' to start test mode: ").lower()
 while (mode != 'l' and mode != 't'):
     clear()
-    print("wrong input! please input letter \'l\' or \'t\' in lower case")
+    print("wrong input! please input letter \'l\' or \'t\' ")
     mode = input(
-        "Press \'l\' to start learn mode, press \'t\' to start test mode: ")
+        "Press \'l\' to start learn mode, press \'t\' to start test mode: ").lower()
 
 try:
     with open("./group.json", "r") as r:
@@ -47,6 +47,7 @@ else:
 for i in range(number_of_lists):
     exec("words%s=words[50*%d:50*%d+50]" % (i+1, i, i))
     exec("meaning%s=meaning[50*%d:50*%d+50]" % (i+1, i, i))
+
 group = input("There are " + str(number_of_lists) +
               ''' groups, put in the group you want to learn,
 input 0 if you want to learn the saved files ''')
@@ -248,4 +249,5 @@ else:
     pass
 
 keyboard.wait('ctrl')
+
 clear()
