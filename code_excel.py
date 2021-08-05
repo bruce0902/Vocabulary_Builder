@@ -61,8 +61,8 @@ while group not in lists:
 input 0 if you want to learn the saved files ''')
 
 
-def read_words():
-    data = open("saved_words.txt", "r")
+def read_saved(location):
+    data = open(location, "r", encoding='utf-8')
     cab = []
     for line in data.readlines():
         cab.append(line.strip().split(','))
@@ -71,33 +71,12 @@ def read_words():
         for j in range(len(cab[i])):
             if cab[i][j] != '':
                 cab_f.append(cab[i][j].strip())
-    cab_final = []
-    for i in cab_f:
-        for j in i.split(' '):
-            cab_final.append(j)
-    return cab_final
-
-
-def read_meaning():
-    data = open("saved_meaing.txt", "r", encoding='utf-8')
-    cab = []
-    for line in data.readlines():
-        cab.append(line.strip().split(','))
-    cab_f = []
-    for i in range(len(cab)):
-        for j in range(len(cab[i])):
-            if cab[i][j] != '':
-                cab_f.append(cab[i][j].strip())
-    cab_final = []
-    for i in cab_f:
-        for j in i.split(' '):
-            cab_final.append(j)
-    return cab_final
+    return cab_f
 
 
 if group == "0":
-    words = read_words()
-    meaning = read_meaning()
+    words = read_saved("saved_words.txt")
+    meaning = read_saved("saved_meaing.txt")
 else:
     word_chosen = "words" + group
     meaning_chosen = "meaning" + group
