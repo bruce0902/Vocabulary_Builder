@@ -276,7 +276,6 @@ if __name__ == "__main__":
         exec("meaning%s=all_meaning[50*%d:50*%d+50]" % (i+1, i, i))
 
     group = choose_group()
-
     words = return_words(group)
     meaning = return_meaning(group)
 
