@@ -3,7 +3,6 @@ import os
 import keyboard
 import xlrd3 as xlrd
 
-num = 0
 def clear():
     os.system('cls')
     size = os.get_terminal_size()
