@@ -1,0 +1,6 @@
+mongrel
+wastrel
+sequel
+ravel
+revel
+drivel
