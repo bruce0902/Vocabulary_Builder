@@ -92,21 +92,6 @@ def return_meaning(g):
     return meaning
 
 
-def main_program(mode):
-    if mode == "l":
-        print_middle(words[0])
-        print_middle(meaning[0])
-        keyboard.hook(Mode().learn)
-
-    if mode == "t":
-        print_middle(words[0])
-        keyboard.hook(Mode().test)
-    else:
-        pass
-    keyboard.wait('ctrl')
-    clear()
-
-
 class Read:
     def read_words(self):
         book = xlrd.open_workbook("data.xlsx")
@@ -147,11 +132,11 @@ class Mode:
                 for i in range(0, len(words)):
                     print_middle(words[i])
                     print_middle(meaning[i])
-        if last_key != 'n':
+        if last_key != 'n' and last_key != 'up':
             if x.event_type == 'down' and x.name == 'n':
                 last_key = x.name
                 print_middle("The number of this word is: " +
-                            str(num + 1) + " / " + str(len(words)))
+                             str(num + 1) + " / " + str(len(words)))
         if x.event_type == 'down' and x.name == 'left':
             last_key = x.name
             clear()
@@ -202,7 +187,7 @@ class Mode:
 
     def test(self, x):
         global num
-        global last_key 
+        global last_key
         if last_key != 'up':
             if x.event_type == 'down' and x.name == 'up':
                 last_key = x.name
@@ -260,6 +245,26 @@ class Mode:
         Mode.common(self, x, 1)
 
 
+def main_program(mode):
+    if mode == "l":
+        print_middle(words[0])
+        print_middle(meaning[0])
+        keyboard.hook(Mode().learn)
+
+    if mode == "t":
+        print_middle(words[0])
+        keyboard.hook(Mode().test)
+    else:
+        pass
+    keyboard.wait('ctrl')
+    keyboard.press('ctrl+a')
+    keyboard.release('ctrl+a')
+    keyboard.press('delete')
+    keyboard.release('delete')
+    clear()
+
+
+
 if __name__ == "__main__":
     mode = choose_mode()
     all_words = Read().read_words()
@@ -273,8 +278,8 @@ if __name__ == "__main__":
     group = choose_group()
     words = return_words(group)
     meaning = return_meaning(group)
+    write_last_group()
 
     num = 0
     last_key = 'none'
-    write_last_group()
     main_program(mode)
