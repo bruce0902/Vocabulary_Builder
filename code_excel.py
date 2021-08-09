@@ -23,6 +23,13 @@ def print_middle(x):
     print(x)
 
 
+def delete_input():
+    keyboard.press('ctrl+a')
+    keyboard.release('ctrl+a')
+    keyboard.press('delete')
+    keyboard.release('delete')
+
+
 def return_num_of_lists():
     if len(all_words) % 50 == 0:
         number_of_lists = int(len(all_words)/50)
@@ -256,12 +263,8 @@ def main_program(mode):
     else:
         pass
     keyboard.wait('ctrl')
-    keyboard.press('ctrl+a')
-    keyboard.release('ctrl+a')
-    keyboard.press('delete')
-    keyboard.release('delete')
+    delete_input()
     clear()
-
 
 
 if __name__ == "__main__":
