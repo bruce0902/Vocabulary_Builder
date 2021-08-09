@@ -1,5 +1,4 @@
 import os
-from posixpath import commonpath
 
 import keyboard
 import xlrd3 as xlrd
