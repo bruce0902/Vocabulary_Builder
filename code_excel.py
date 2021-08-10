@@ -8,7 +8,7 @@ def clear():
     os.system('cls')
     size = os.get_terminal_size()
     vertical = int((size[1])/2-2)
-    for i in range(0, vertical):
+    for i in range(vertical):
         print()
 
 
@@ -18,7 +18,7 @@ def print_middle(x):
     width_utf = len(x.encode('utf-8'))
     width = int((width_utf - width_ori) / 2 + width_ori)
     horizontal = int((size[0]-width)/2)
-    for i in range(0, horizontal):
+    for i in range(horizontal):
         print(" ", end='')
     print(x)
 
@@ -34,7 +34,7 @@ def return_num_of_lists():
     if len(all_words) % 50 == 0:
         number_of_lists = int(len(all_words)/50)
     else:
-        number_of_lists = int(1+len(all_words)/50)
+        number_of_lists = int(1 + len(all_words)/50)
         return number_of_lists
 
 
@@ -73,7 +73,6 @@ def choose_group():
     lists = []
     for i in range(0, num_of_lists + 1):
         lists.append(str(i))
-
     while group not in lists:
         clear()
         print("wrong input! please input number like 1, 2, 3, 11...")
@@ -179,6 +178,7 @@ class Mode:
     def learn(self, x):
         global num
         global last_key
+        global mode
         if last_key != 'tab':
             if x.event_type == 'down' and x.name == 'tab':
                 last_key = x.name
@@ -188,12 +188,18 @@ class Mode:
                     \n Press page down to go to the last 
                     \n Press enter to show all the words 
                     \n Press n to show the number of the current word 
-                    \n Press ctrl to exit''')
+                    \n Press ctrl to exit
+                    \n Press t to go to test mode''')
         Mode.common(self, x, 0)
+        if x.event_type == 'down' and x.name == 't':
+            mode = 't'
+            clear()
+            print_middle('now is test mode')
 
     def test(self, x):
         global num
         global last_key
+        global mode
         if last_key != 'up':
             if x.event_type == 'down' and x.name == 'up':
                 last_key = x.name
@@ -230,7 +236,8 @@ class Mode:
                 \n Press ctrl to exit
                 \n Press up to show the meaning of the word.
                 \n Press down to delete the world.
-                \n Press s to save the files''')
+                \n Press s to save the files
+                \n Press l to go to learn mode''')
         if last_key != 's':
             if x.event_type == 'down' and x.name == 's':
                 last_key = x.name
@@ -248,18 +255,29 @@ class Mode:
                 meaning_s.close()
                 clear()
                 print_middle("saved!")
+        if x.event_type == 'down' and x.name == 'l':
+            mode = 'l'
+            clear()
+            print_middle('now is learn mode')
         Mode.common(self, x, 1)
 
+    def both_mode(self, x):
+        global mode
+        if mode == 'l':
+            Mode.learn(self, x)
+        if mode == 't':
+            Mode.test(self, x)
 
-def main_program(mode):
+
+def main_program():
+    global mode
     if mode == "l":
         print_middle(words[0])
         print_middle(meaning[0])
-        keyboard.hook(Mode().learn)
-
+        keyboard.hook(Mode().both_mode)
     if mode == "t":
         print_middle(words[0])
-        keyboard.hook(Mode().test)
+        keyboard.hook(Mode().both_mode)
     else:
         pass
     keyboard.wait('ctrl')
@@ -284,4 +302,4 @@ if __name__ == "__main__":
 
     num = 0
     last_key = 'none'
-    main_program(mode)
+    main_program()
