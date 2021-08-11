@@ -7,7 +7,7 @@ import xlrd3 as xlrd
 def clear():
     os.system('cls')
     size = os.get_terminal_size()
-    vertical = int((size[1])/2-2)
+    vertical = int((size[1]) / 2 - 2)
     for i in range(vertical):
         print()
 
@@ -17,7 +17,7 @@ def print_middle(x):
     width_ori = len(x)
     width_utf = len(x.encode('utf-8'))
     width = int((width_utf - width_ori) / 2 + width_ori)
-    horizontal = int((size[0]-width)/2)
+    horizontal = int((size[0] - width) / 2)
     for i in range(horizontal):
         print(" ", end='')
     print(x)
@@ -32,10 +32,10 @@ def delete_input():
 
 def return_num_of_lists():
     if len(all_words) % 50 == 0:
-        number_of_lists = int(len(all_words)/50)
+        number_of_lists = int(len(all_words) / 50)
     else:
-        number_of_lists = int(1 + len(all_words)/50)
-        return number_of_lists
+        number_of_lists = int(1 + len(all_words) / 50)
+    return number_of_lists
 
 
 def show_last_group():
@@ -45,6 +45,8 @@ def show_last_group():
             print(" The last group you learned was group: " + last_group)
     except:
         print(" This is the first time you use this program")
+    else:
+        pass
 
 
 def write_last_group():
@@ -72,18 +74,16 @@ def update_words():
         print_middle(words[0])
 
 
-
-
 def choose_mode():
     clear()
-    mode = input(
+    mode_first = input(
         "Press \'l\' to start learn mode, press \'t\' to start test mode: ").lower()
-    while (mode != 'l' and mode != 't'):
+    while mode_first != 'l' and mode_first != 't':
         clear()
         print("wrong input! please input letter \'l\' or \'t\' ")
-        mode = input(
+        mode_first = input(
             "Press \'l\' to start learn mode, press \'t\' to start test mode: ").lower()
-    return mode
+    return mode_first
 
 
 def choose_group():
@@ -107,7 +107,7 @@ def return_words():
     global group
     global words
     if group == "0":
-        words = Read().read_saved("saved_words.txt")
+        words = read_saved("saved_words.txt")
     else:
         words = eval("words" + group)
 
@@ -115,38 +115,39 @@ def return_words():
 def return_meaning():
     global meaning
     if group == "0":
-        meaning = Read().read_saved("saved_meaning.txt")
+        meaning = read_saved("saved_meaning.txt")
     else:
         meaning = eval("meaning" + group)
 
 
-class Read:
-    def read_words(self):
-        book = xlrd.open_workbook("data.xlsx")
-        sheet = book.sheet_by_index(0)
-        words = [str(sheet.cell_value(i, 0)) for i in range(1, sheet.nrows)]
-        return words
+def read_words():
+    book = xlrd.open_workbook("data.xlsx")
+    sheet = book.sheet_by_index(0)
+    all_word = [str(sheet.cell_value(i, 0)) for i in range(1, sheet.nrows)]
+    return all_word
 
-    def read_meaning(self):
-        book = xlrd.open_workbook("data.xlsx")
-        sheet = book.sheet_by_index(0)
-        meaning = [str(sheet.cell_value(i, 1)) for i in range(1, sheet.nrows)]
-        for i in range(len(all_words)):
-            meaning[i] = meaning[i].replace(' ', '')
-            meaning[i] = meaning[i].replace('\n', ' ').replace('\r', '')
-        return meaning
 
-    def read_saved(self, location):
-        data = open(location, "r", encoding='utf-8')
-        cab = []
-        for line in data.readlines():
-            cab.append(line.strip().split(','))
-        cab_f = []
-        for i in range(len(cab)):
-            for j in range(len(cab[i])):
-                if cab[i][j] != '':
-                    cab_f.append(cab[i][j].strip())
-        return cab_f
+def read_meaning():
+    book = xlrd.open_workbook("data.xlsx")
+    sheet = book.sheet_by_index(0)
+    all_meanings = [str(sheet.cell_value(i, 1)) for i in range(1, sheet.nrows)]
+    for i in range(len(all_words)):
+        all_meanings[i] = all_meanings[i].replace(' ', '')
+        all_meanings[i] = all_meanings[i].replace('\n', ' ').replace('\r', '')
+    return all_meanings
+
+
+def read_saved(location):
+    data = open(location, "r", encoding='utf-8')
+    cab = []
+    for line in data.readlines():
+        cab.append(line.strip().split(','))
+    cab_f = []
+    for i in range(len(cab)):
+        for j in range(len(cab[i])):
+            if cab[i][j] != '':
+                cab_f.append(cab[i][j].strip())
+    return cab_f
 
 
 class Mode:
@@ -160,7 +161,7 @@ class Mode:
                 for i in range(0, len(words)):
                     print_middle(words[i])
                     print_middle(meaning[i])
-        if last_key != 'n' and last_key != 'up':
+        if last_key != 'n':
             if x.event_type == 'down' and x.name == 'n':
                 last_key = x.name
                 print_middle("The number of this word is: " +
@@ -193,7 +194,7 @@ class Mode:
             if x.event_type == 'down' and x.name == 'page down':
                 last_key = x.name
                 clear()
-                num = len(words)-1
+                num = len(words) - 1
                 print_middle(words[num])
                 if mode_in == 0:
                     print_middle(meaning[num])
@@ -312,13 +313,13 @@ def main_program():
 
 if __name__ == "__main__":
     mode = choose_mode()
-    all_words = Read().read_words()
-    all_meaning = Read().read_meaning()
+    all_words = read_words()
+    all_meaning = read_meaning()
     num_of_lists = return_num_of_lists()
 
     for i in range(num_of_lists):
-        exec("words%s=all_words[50*%d:50*%d+50]" % (i+1, i, i))
-        exec("meaning%s=all_meaning[50*%d:50*%d+50]" % (i+1, i, i))
+        exec("words%s=all_words[50*%d:50*%d+50]" % (i + 1, i, i))
+        exec("meaning%s=all_meaning[50*%d:50*%d+50]" % (i + 1, i, i))
 
     choose_group()
     return_words()
