@@ -42,15 +42,36 @@ def show_last_group():
     try:
         with open("./group.json", "r") as r:
             last_group = r.read()
-            print("The last group you learned was group: " + last_group)
+            print(" The last group you learned was group: " + last_group)
     except:
-        print("This is the first time you use this program")
+        print(" This is the first time you use this program")
 
 
 def write_last_group():
     clear()
     with open("./group.json", "w") as w:
         w.write(group)
+
+
+def update_words():
+    global words
+    global meaning
+    global num
+    global mode
+    clear()
+    choose_group()
+    return_words()
+    return_meaning()
+    write_last_group()
+    num = 0
+    clear()
+    if mode == 'l':
+        print_middle(words[0])
+        print_middle(meaning[0])
+    if mode == 't':
+        print_middle(words[0])
+
+
 
 
 def choose_mode():
@@ -62,39 +83,41 @@ def choose_mode():
         print("wrong input! please input letter \'l\' or \'t\' ")
         mode = input(
             "Press \'l\' to start learn mode, press \'t\' to start test mode: ").lower()
-    show_last_group()
     return mode
 
 
 def choose_group():
-    group = input("There are " + str(num_of_lists) +
-                  ''' groups, put in the group you want to learn,
+    global group
+    clear()
+    show_last_group()
+    group = input(" There are " + str(num_of_lists) +
+                  ''' groups, put in the group you want to learn
     input 0 if you want to learn the saved files ''')
     lists = []
     for i in range(0, num_of_lists + 1):
         lists.append(str(i))
     while group not in lists:
         clear()
-        print("wrong input! please input number like 1, 2, 3, 11...")
-        group = input(''' groups, put in the group you want to learn: 
-    input 0 if you want to learn the saved files ''')
-    return group
+        print(" wrong input! please input number like 1, 2, 3, 11...")
+        group = input(''' groups, put in the group you want to learn
+        \n input 0 if you want to learn the saved files \n''')
 
 
-def return_words(g):
-    if g == "0":
+def return_words():
+    global group
+    global words
+    if group == "0":
         words = Read().read_saved("saved_words.txt")
     else:
-        words = eval("words" + g)
-    return words
+        words = eval("words" + group)
 
 
-def return_meaning(g):
-    if g == "0":
+def return_meaning():
+    global meaning
+    if group == "0":
         meaning = Read().read_saved("saved_meaning.txt")
     else:
-        meaning = eval("meaning" + g)
-    return meaning
+        meaning = eval("meaning" + group)
 
 
 class Read:
@@ -130,8 +153,8 @@ class Mode:
     def common(self, x, mode_in):
         global num
         global last_key
-        if last_key != 'enter':
-            if x.event_type == 'down' and x.name == 'enter':
+        if last_key != 'a':
+            if x.event_type == 'down' and x.name == 'a':
                 last_key = x.name
                 clear()
                 for i in range(0, len(words)):
@@ -174,6 +197,9 @@ class Mode:
                 print_middle(words[num])
                 if mode_in == 0:
                     print_middle(meaning[num])
+        if x.event_type == 'down' and x.name == 'g':
+            last_key = x.name
+            update_words()
 
     def learn(self, x):
         global num
@@ -186,9 +212,9 @@ class Mode:
                 print(
                     ''' Press page up to go to the first word 
                     \n Press page down to go to the last 
-                    \n Press enter to show all the words 
+                    \n Press a to show all the words 
                     \n Press n to show the number of the current word 
-                    \n Press ctrl to exit
+                    \n Press esc to exit
                     \n Press t to go to test mode''')
         Mode.common(self, x, 0)
         if x.event_type == 'down' and x.name == 't':
@@ -207,7 +233,7 @@ class Mode:
                     print_middle(meaning[num])
                 except:
                     clear()
-                    print_middle("complete! press ctrl to exit")
+                    print_middle("complete! press esc to exit")
         if x.event_type == 'down' and x.name == 'down':
             last_key = x.name
             clear()
@@ -216,7 +242,7 @@ class Mode:
                 del meaning[num]
             except:
                 clear()
-                print_middle("complete! press ctrl to exit")
+                print_middle("complete! press esc to exit")
             if len(words) > 0 and num < len(words):
                 print_middle(words[num])
             elif 0 < len(words) == num:
@@ -224,16 +250,16 @@ class Mode:
                 print_middle(words[num])
             elif len(words) == 0:
                 clear()
-                print_middle("complete! press ctrl to exit")
+                print_middle("complete! press esc to exit")
         if last_key != 'tab':
             if x.event_type == 'down' and x.name == 'tab':
                 last_key = x.name
                 clear()
                 print(''' Press page up to go to the first word 
                 \n Press page down to go to the last 
-                \n Press enter to show all the words 
+                \n Press a to show all the words 
                 \n Press n to show the number of the current word 
-                \n Press ctrl to exit
+                \n Press esc to exit
                 \n Press up to show the meaning of the word.
                 \n Press down to delete the world.
                 \n Press s to save the files
@@ -280,8 +306,7 @@ def main_program():
         keyboard.hook(Mode().both_mode)
     else:
         pass
-    keyboard.wait('ctrl')
-    delete_input()
+    keyboard.wait('esc')
     clear()
 
 
@@ -295,9 +320,9 @@ if __name__ == "__main__":
         exec("words%s=all_words[50*%d:50*%d+50]" % (i+1, i, i))
         exec("meaning%s=all_meaning[50*%d:50*%d+50]" % (i+1, i, i))
 
-    group = choose_group()
-    words = return_words(group)
-    meaning = return_meaning(group)
+    choose_group()
+    return_words()
+    return_meaning()
     write_last_group()
 
     num = 0
