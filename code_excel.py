@@ -2,6 +2,8 @@ import os
 
 import keyboard
 import xlrd3 as xlrd
+import xlwt
+from xlwt.Worksheet import Worksheet
 
 
 def clear():
@@ -54,12 +56,34 @@ def write_last_group():
     with open("./group.json", "w") as w:
         w.write(group)
 
+def write_info():
+    global num,group,mode
+    wb = xlwt.Workbook(encoding='utf-8')
+    ws = wb.add_sheet('data')
+    ws.write(0,0,'num')
+    ws.write(0,1,'group')
+    ws.write(0,2,'mode')
+    ws.write(1,0,num)
+    ws.write(1,1,group)
+    ws.write(1,2,mode)
+    wb.save('info.xls')
+
+
+def read_info():
+    book = xlrd.open_workbook("info.xls")
+    sheet = book.sheet_by_index(0)
+    last_num = sheet.cell_value(rowx=1,colx=0)
+    last_group = sheet.cell_value(rowx=1,colx=1)
+    last_mode = sheet.cell_value(rowx=1,colx=2)
+    info = [last_num,last_group,last_mode]
+    return info
+    
+
 
 def update_words():
-    global words
-    global meaning
-    global num
-    global mode
+    global words,meaning,num,mode
+    keyboard.press("enter")
+    keyboard.release("enter")
     clear()
     choose_group()
     return_words()
@@ -89,7 +113,6 @@ def choose_mode():
 def choose_group():
     global group
     clear()
-    show_last_group()
     group = input(" There are " + str(num_of_lists) +
                   ''' groups, put in the group you want to learn
     input 0 if you want to learn the saved files ''')
@@ -98,9 +121,14 @@ def choose_group():
         lists.append(str(i))
     while group not in lists:
         clear()
-        print(" wrong input! please input number like 1, 2, 3, 11...")
-        group = input(''' groups, put in the group you want to learn
-        \n input 0 if you want to learn the saved files \n''')
+        if group.endswith("g"):
+            group = input(" There are " + str(num_of_lists) +
+                  ''' groups, put in the group you want to learn
+    input 0 if you want to learn the saved files ''')
+        else:
+            print(" wrong input! please input number like 1, 2, 3, 11...")
+            group = input(''' groups, put in the group you want to learn
+            \n input 0 if you want to learn the saved files \n''')
 
 
 def return_words():
@@ -308,6 +336,7 @@ def main_program():
     else:
         pass
     keyboard.wait('esc')
+    write_info()
     clear()
 
 
@@ -321,6 +350,7 @@ if __name__ == "__main__":
         exec("words%s=all_words[50*%d:50*%d+50]" % (i + 1, i, i))
         exec("meaning%s=all_meaning[50*%d:50*%d+50]" % (i + 1, i, i))
 
+    show_last_group()
     choose_group()
     return_words()
     return_meaning()
