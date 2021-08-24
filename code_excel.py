@@ -2,8 +2,6 @@ import os
 
 import keyboard
 import xlrd3 as xlrd
-import xlwt
-from xlwt.Worksheet import Worksheet
 
 
 def clear():
@@ -25,13 +23,6 @@ def print_middle(x):
     print(x)
 
 
-def delete_input():
-    keyboard.press('ctrl+a')
-    keyboard.release('ctrl+a')
-    keyboard.press('delete')
-    keyboard.release('delete')
-
-
 def return_num_of_lists():
     if len(all_words) % 50 == 0:
         number_of_lists = int(len(all_words) / 50)
@@ -41,6 +32,7 @@ def return_num_of_lists():
 
 
 def show_last_group():
+    clear()
     try:
         with open("./group.json", "r") as r:
             last_group = r.read()
@@ -56,32 +48,9 @@ def write_last_group():
     with open("./group.json", "w") as w:
         w.write(group)
 
-def write_info():
-    global num,group,mode
-    wb = xlwt.Workbook(encoding='utf-8')
-    ws = wb.add_sheet('data')
-    ws.write(0,0,'num')
-    ws.write(0,1,'group')
-    ws.write(0,2,'mode')
-    ws.write(1,0,num)
-    ws.write(1,1,group)
-    ws.write(1,2,mode)
-    wb.save('info.xls')
-
-
-def read_info():
-    book = xlrd.open_workbook("info.xls")
-    sheet = book.sheet_by_index(0)
-    last_num = sheet.cell_value(rowx=1,colx=0)
-    last_group = sheet.cell_value(rowx=1,colx=1)
-    last_mode = sheet.cell_value(rowx=1,colx=2)
-    info = [last_num,last_group,last_mode]
-    return info
-    
-
 
 def update_words():
-    global words,meaning,num,mode
+    global words, meaning, num, mode
     keyboard.press("enter")
     keyboard.release("enter")
     clear()
@@ -112,7 +81,6 @@ def choose_mode():
 
 def choose_group():
     global group
-    clear()
     group = input(" There are " + str(num_of_lists) +
                   ''' groups, put in the group you want to learn
     input 0 if you want to learn the saved files ''')
@@ -123,7 +91,7 @@ def choose_group():
         clear()
         if group.endswith("g"):
             group = input(" There are " + str(num_of_lists) +
-                  ''' groups, put in the group you want to learn
+                          ''' groups, put in the group you want to learn
     input 0 if you want to learn the saved files ''')
         else:
             print(" wrong input! please input number like 1, 2, 3, 11...")
@@ -210,16 +178,16 @@ class Mode:
             print_middle(words[num])
             if mode_in == 0:
                 print_middle(meaning[num])
-        if last_key != 'page up':
-            if x.event_type == 'down' and x.name == 'page up':
+        if last_key != 'home':
+            if x.event_type == 'down' and x.name == 'home':
                 last_key = x.name
                 clear()
                 num = 0
                 print_middle(words[num])
                 if mode_in == 0:
                     print_middle(meaning[num])
-        if last_key != 'page down':
-            if x.event_type == 'down' and x.name == 'page down':
+        if last_key != 'end':
+            if x.event_type == 'down' and x.name == 'end':
                 last_key = x.name
                 clear()
                 num = len(words) - 1
@@ -239,8 +207,8 @@ class Mode:
                 last_key = x.name
                 clear()
                 print(
-                    ''' Press page up to go to the first word 
-                    \n Press page down to go to the last 
+                    ''' Press home to go to the first word 
+                    \n Press end to go to the last 
                     \n Press a to show all the words 
                     \n Press n to show the number of the current word 
                     \n Press esc to exit
@@ -284,8 +252,8 @@ class Mode:
             if x.event_type == 'down' and x.name == 'tab':
                 last_key = x.name
                 clear()
-                print(''' Press page up to go to the first word 
-                \n Press page down to go to the last 
+                print(''' Press home to go to the first word 
+                \n Press end to go to the last 
                 \n Press a to show all the words 
                 \n Press n to show the number of the current word 
                 \n Press esc to exit
@@ -336,7 +304,6 @@ def main_program():
     else:
         pass
     keyboard.wait('esc')
-    write_info()
     clear()
 
 
