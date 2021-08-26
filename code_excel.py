@@ -34,7 +34,7 @@ def return_num_of_lists():
 def show_last_group():
     clear()
     try:
-        with open("./group.json", "r") as r:
+        with open("./data/group.txt", "r") as r:
             last_group = r.read()
             print(" The last group you learned was group: " + last_group)
     except:
@@ -45,7 +45,7 @@ def show_last_group():
 
 def write_last_group():
     clear()
-    with open("./group.json", "w") as w:
+    with open("./data/group.txt", "w") as w:
         w.write(group)
 
 
@@ -103,7 +103,7 @@ def return_words():
     global group
     global words
     if group == "0":
-        words = read_saved("saved_words.txt")
+        words = read_saved("data\saved_words.txt")
     else:
         words = eval("words" + group)
 
@@ -111,20 +111,20 @@ def return_words():
 def return_meaning():
     global meaning
     if group == "0":
-        meaning = read_saved("saved_meaning.txt")
+        meaning = read_saved("data\saved_meaning.txt")
     else:
         meaning = eval("meaning" + group)
 
 
 def read_words():
-    book = xlrd.open_workbook("data.xlsx")
+    book = xlrd.open_workbook("data\data.xlsx")
     sheet = book.sheet_by_index(0)
     all_word = [str(sheet.cell_value(i, 0)) for i in range(1, sheet.nrows)]
     return all_word
 
 
 def read_meaning():
-    book = xlrd.open_workbook("data.xlsx")
+    book = xlrd.open_workbook("data\data.xlsx")
     sheet = book.sheet_by_index(0)
     all_meanings = [str(sheet.cell_value(i, 1)) for i in range(1, sheet.nrows)]
     for i in range(len(all_words)):
@@ -281,12 +281,12 @@ class Mode:
                 last_key = x.name
                 words_saved = words
                 meaning_saved = meaning
-                words_s = open('saved_words.txt', 'w')
+                words_s = open('data\saved_words.txt', 'w')
                 for w in words_saved:
                     words_s.write(w)
                     words_s.write('\n')
                 words_s.close()
-                meaning_s = open('saved_meaning.txt', 'w', encoding='utf-8')
+                meaning_s = open('data\saved_meaning.txt', 'w', encoding='utf-8')
                 for m in meaning_saved:
                     meaning_s.write(m)
                     meaning_s.write('\n')
