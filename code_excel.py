@@ -223,6 +223,9 @@ class Mode:
         global num
         global last_key
         global mode
+        global deleted_word
+        global deleted_meaning
+        global num_of_deleted
         if last_key != 'up':
             if x.event_type == 'down' and x.name == 'up':
                 last_key = x.name
@@ -233,6 +236,9 @@ class Mode:
                     print_middle("complete! press esc to exit")
         if x.event_type == 'down' and x.name == 'down':
             last_key = x.name
+            deleted_word = words[num]
+            deleted_meaning = meaning[num]
+            num_of_deleted = num
             clear()
             try:
                 del words[num]
@@ -248,6 +254,14 @@ class Mode:
             elif len(words) == 0:
                 clear()
                 print_middle("complete! press esc to exit")
+        if last_key != 'z' and deleted_word != 'none':
+            if x.event_type == 'down' and x.name == 'z':
+                last_key = x.name
+                clear()
+                words.insert(num_of_deleted,deleted_word)
+                meaning.insert(num_of_deleted,deleted_meaning)
+                num = num_of_deleted
+                print_middle(words[num])
         if last_key != 'tab':
             if x.event_type == 'down' and x.name == 'tab':
                 last_key = x.name
@@ -260,7 +274,8 @@ class Mode:
                 \n Press up to show the meaning of the word.
                 \n Press down to delete the world.
                 \n Press s to save the files
-                \n Press l to go to learn mode''')
+                \n Press l to go to learn mode
+                \n Press z to withdraw the last delete''')
         if last_key != 's':
             if x.event_type == 'down' and x.name == 's':
                 last_key = x.name
@@ -325,4 +340,7 @@ if __name__ == "__main__":
 
     num = 0
     last_key = 'none'
+    deleted_word = 'none'
+    deleted_meaning = 'none'
+    num_of_deleted = 0
     main_program()
