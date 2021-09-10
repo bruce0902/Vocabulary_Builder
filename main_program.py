@@ -116,15 +116,23 @@ def return_meaning():
         meaning = eval("meaning" + group)
 
 
+def choose_vocabulary():
+    with open("data/vocabulary.txt", "r") as r:
+            vocabulary =  r.read()
+    return vocabulary
+
+
 def read_words():
-    book = xlrd.open_workbook("data\data.xlsx")
+    location = 'vocabulary/' + choose_vocabulary()
+    book = xlrd.open_workbook(location)
     sheet = book.sheet_by_index(0)
     all_word = [str(sheet.cell_value(i, 0)) for i in range(1, sheet.nrows)]
     return all_word
 
 
 def read_meaning():
-    book = xlrd.open_workbook("data\data.xlsx")
+    location = 'vocabulary/' + choose_vocabulary()
+    book = xlrd.open_workbook(location)
     sheet = book.sheet_by_index(0)
     all_meanings = [str(sheet.cell_value(i, 1)) for i in range(1, sheet.nrows)]
     for i in range(len(all_words)):
