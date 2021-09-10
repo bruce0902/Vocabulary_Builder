@@ -13,9 +13,9 @@ test-mode初始只显示单词，需要按方向键上键才能显示意思，�
 # 使用方法：
 这个软件用python写成，首先需要有python3的环境。  
 下载整个zip文件，解压后在vscode或终端中打开。这个程序用到了keyboard库和xlrd3库，可通过pip install keyboard和pip install xlrd3进行下载。  
-如果用vscode运行，首先用vscode打开整个下载下来的文件夹，之后打开code_excel.py文件，点击右上角在终端中运行即可。  
+如果用vscode运行，首先用vscode打开整个下载下来的文件夹，之后打开main_program.py文件，点击右上角在终端中运行即可。  
 如果用pycharm运行，按Alt+F12打开终端在终端中运行。
-如果用Windows powershell，当前文件夹，点击窗口左上角的文件选项，点击“打开Windows PowerShell”，之后在命令行中输入 python code_excel.py即可。  建议按F11打开全屏，效果更好。
+如果用Windows powershell，当前文件夹，点击窗口左上角的文件选项，点击“打开Windows PowerShell”，之后在命令行中输入 python main_program.py即可。  建议按F11打开全屏，效果更好。
 之后按提示输入想选择的模式，以及需要背哪一个文件中的单词，之后按方向键进行操作。    
 如果想背GRE佛教单词，将代码中的两个data.xlsx替换成data2.xlsx即可。
 
@@ -23,4 +23,4 @@ test-mode初始只显示单词，需要按方向键上键才能显示意思，�
 目前市面上大多数背单词软件都在安卓或者ios端。但是这些平台屏幕小，也不方便在课堂，图书馆，公司等场合下使用。这个软件可以在电脑上用键盘来背单词，声音小，操作更为方便。  
 
 ## 注意  
-- 如果无法用pip install安装keyboard库，可将文件夹keyboard_master里的文件取出，放在code.py的路径下即可。
+- 如果无法用pip install安装keyboard库，可将文件夹keyboard_master里的文件取出，放在main_program.py的路径下即可。
