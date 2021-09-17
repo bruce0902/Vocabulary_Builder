@@ -251,6 +251,18 @@ class Mode:
             try:
                 del words[num]
                 del meaning[num]
+                words_saved = words
+                meaning_saved = meaning
+                words_s = open('data\saved_words.txt', 'w')
+                for w in words_saved:
+                    words_s.write(w)
+                    words_s.write('\n')
+                words_s.close()
+                meaning_s = open('data\saved_meaning.txt', 'w', encoding='utf-8')
+                for m in meaning_saved:
+                    meaning_s.write(m)
+                    meaning_s.write('\n')
+                meaning_s.close()
             except:
                 clear()
                 print_middle("complete! press esc to exit")
@@ -270,23 +282,6 @@ class Mode:
                 meaning.insert(num_of_deleted,deleted_meaning)
                 num = num_of_deleted
                 print_middle(words[num])
-        if last_key != 'tab':
-            if x.event_type == 'down' and x.name == 'tab':
-                last_key = x.name
-                clear()
-                print(''' Press home to go to the first word 
-                \n Press end to go to the last 
-                \n Press a to show all the words 
-                \n Press n to show the number of the current word 
-                \n Press esc to exit
-                \n Press up to show the meaning of the word.
-                \n Press down to delete the world.
-                \n Press s to save the files
-                \n Press l to go to learn mode
-                \n Press z to withdraw the last delete''')
-        if last_key != 's':
-            if x.event_type == 'down' and x.name == 's':
-                last_key = x.name
                 words_saved = words
                 meaning_saved = meaning
                 words_s = open('data\saved_words.txt', 'w')
@@ -299,8 +294,19 @@ class Mode:
                     meaning_s.write(m)
                     meaning_s.write('\n')
                 meaning_s.close()
+        if last_key != 'tab':
+            if x.event_type == 'down' and x.name == 'tab':
+                last_key = x.name
                 clear()
-                print_middle("saved!")
+                print(''' Press home to go to the first word 
+                \n Press end to go to the last 
+                \n Press a to show all the words 
+                \n Press n to show the number of the current word 
+                \n Press esc to exit
+                \n Press up to show the meaning of the word.
+                \n Press down to delete the world.
+                \n Press l to go to learn mode
+                \n Press z to withdraw the last delete''')
         if x.event_type == 'down' and x.name == 'l':
             mode = 'l'
             clear()
